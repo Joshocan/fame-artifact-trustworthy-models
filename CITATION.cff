@@ -1,39 +1,108 @@
+# Citation File Format 1.2.0 -- https://citation-file-format.github.io
+#
+# Lives at the REPOSITORY ROOT. GitHub renders a "Cite this repository"
+# button from it; Zenodo reads it when .zenodo.json is absent.
+#
+# RULE: every value here must be real. Zenodo validates ORCIDs (they carry a
+# check digit), DOIs and arXiv identifiers, and rejects the whole deposition
+# on the first bad one. Omit a field you cannot fill; never placeholder it.
+#
+# Validate before committing:
+#   pipx run cffconvert --validate
+
 cff-version: 1.2.0
-message: "If you use this artifact, please cite both the artifact and the paper."
+message: "If you use this artifact, please cite the paper it accompanies (see preferred-citation below)."
+
 title: "FAME artifact: metamodels, constraints, scenario and seeded-violation test set"
+type: software
+version: "1.0.1"
+date-released: "2026-07-28"
+license: Apache-2.0
+repository-code: "https://github.com/Joshocan/fame-artifact-trustworthy-models-"
+url: "https://github.com/Joshocan/fame-artifact-trustworthy-models-"
+
 abstract: >-
   Companion artifact for "Construction Before Alignment: Trustworthy Models
   and Correspondences for Semantic Interoperability". Contains the FAME core
-  and correspondence metamodels (Ecore), the well-formedness conditions
-  (Complete OCL), the healthcare running scenario, a synthetic artefact
+  and correspondence metamodels in Ecore, all static well-formedness
+  conditions as a Complete OCL document, the healthcare running scenario with
+  three system models and five correspondences, a synthetic source-artefact
   corpus, a 22-instance seeded-violation test set, and tooling for the typed
-  correspondence notation.
-type: software
-version: "1.0.0"
-date-released: "2026-07-28"
-license: [CC-BY-4.0, Apache-2.0]
-repository-code: "https://github.com/Joshocan/fame-project-tool"
-authors:
-  - family-names: "Ocansey"
-    given-names: "Joshua Tetteh"
-    affiliation: "Western Norway University of Applied Sciences"
-  - family-names: "Lamo"
-    given-names: "Yngve"
-    affiliation: "Western Norway University of Applied Sciences"
-  - family-names: "Rutle"
-    given-names: "Adrian"
-    affiliation: "Western Norway University of Applied Sciences"
-  - family-names: "Rabbi"
-    given-names: "Fazle"
-    affiliation: "University of Bergen"
+  correspondence notation together with a dependency-free reference validator
+  that also serves as the resolver for conditions E5 and E7. Code under tools/
+  and tests/ is Apache-2.0; models, constraints, scenario instances, the
+  artefact corpus, figures and documentation are CC-BY-4.0.
+
 keywords:
   - model-driven engineering
   - semantic interoperability
   - metamodelling
   - OCL
+  - EMF
   - correspondence models
   - trustworthiness
-# TODO before release: add the Zenodo DOI here and in identifiers below.
+  - typed graphs
+  - comprehensive systems
+
+authors:
+  - family-names: Ocansey
+    given-names: "Joshua Tetteh"
+    affiliation: "Western Norway University of Applied Sciences"
+  - family-names: Lamo
+    given-names: Yngve
+    affiliation: "Western Norway University of Applied Sciences"
+  - family-names: Rutle
+    given-names: Adrian
+    affiliation: "Western Norway University of Applied Sciences"
+  - family-names: Rabbi
+    given-names: Fazle
+    affiliation: "University of Bergen"
+
+# Add `orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"` under each author once
+# you have the real identifiers. A placeholder such as 0000-0000-0000-0000
+# fails the ORCID check digit and will break the Zenodo deposition.
+
+# Uncomment once the Zenodo release exists, using the VERSION DOI:
 # identifiers:
 #   - type: doi
-#     value: 10.5281/zenodo.XXXXXXX
+#     value: "10.5281/zenodo.XXXXXXX"
+#     description: "Version DOI for this archive"
+
+# Makes GitHub's "Cite this repository" button emit the PAPER citation
+# rather than the software one. Fill volume/issue/doi after JOT acceptance.
+preferred-citation:
+  type: article
+  title: "Construction Before Alignment: Trustworthy Models and Correspondences for Semantic Interoperability"
+  journal: "Journal of Object Technology"
+  year: 2027
+  authors:
+    - family-names: Ocansey
+      given-names: "Joshua Tetteh"
+      affiliation: "Western Norway University of Applied Sciences"
+    - family-names: Lamo
+      given-names: Yngve
+      affiliation: "Western Norway University of Applied Sciences"
+    - family-names: Rutle
+      given-names: Adrian
+      affiliation: "Western Norway University of Applied Sciences"
+    - family-names: Rabbi
+      given-names: Fazle
+      affiliation: "University of Bergen"
+
+references:
+  - type: article
+    title: "Comprehensive systems: A formal foundation for multi-model consistency management"
+    journal: "Formal Aspects of Computing"
+    year: 2021
+    volume: 33
+    issue: 6
+    doi: "10.1007/s00165-021-00555-2"
+    authors:
+      - family-names: "Stünkel"
+        given-names: Patrick
+      - family-names: "König"
+        given-names: Harald
+      - family-names: Lamo
+        given-names: Yngve
+      - family-names: Rutle
+        given-names: Adrian

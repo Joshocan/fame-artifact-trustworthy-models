@@ -1,0 +1,38 @@
+{
+  "title": "FAME artifact: metamodels, constraints, scenario and seeded-violation test set",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "Apache-2.0",
+  "version": "1.0.1",
+  "language": "eng",
+  "description": "<p>Companion artifact for <em>Construction Before Alignment: Trustworthy Models and Correspondences for Semantic Interoperability</em> (Ocansey, Lamo, Rutle, Rabbi).</p><p>Contains:</p><ul><li>the FAME core and correspondence metamodels (Ecore), with a generated variant carrying OCL validation delegates;</li><li>all static well-formedness conditions as a Complete OCL document;</li><li>the healthcare running scenario of Section 2: three system models and the five correspondences C1-C5;</li><li>a synthetic source-artefact corpus, so that every provenance reference resolves and condition B1 is checkable end to end;</li><li>a 22-instance seeded-violation test set, one deliberate violation per seedable invariant;</li><li>the typed correspondence notation, with a parser, serialiser and round-trip test;</li><li>a dependency-free reference validator that also serves as the resolver for conditions E5 and E7.</li></ul><p>Verification: <code>python3 tests/run_tests.py</code> (Python 3.8+, no dependencies) reports 25 passing checks.</p><p><strong>Dual licence.</strong> Code under <code>tools/</code> and <code>tests/</code> is Apache-2.0. Models, constraints, scenario instances, the artefact corpus, figures and documentation are CC-BY-4.0. Zenodo records a single identifier; see LICENSE in the archive for the split.</p><p><strong>Scope.</strong> The LLM-based construction pipeline of Section 5 is not included; it belongs to the enabling paper and is archived separately. No SAT/SMT solver (condition D3) and no update operations (conditions T2, G2) are included. See the README section &quot;Known gaps&quot;.</p>",
+  "creators": [
+    {
+      "name": "Ocansey, Joshua Tetteh",
+      "affiliation": "Western Norway University of Applied Sciences"
+    },
+    {
+      "name": "Lamo, Yngve",
+      "affiliation": "Western Norway University of Applied Sciences"
+    },
+    {
+      "name": "Rutle, Adrian",
+      "affiliation": "Western Norway University of Applied Sciences"
+    },
+    {
+      "name": "Rabbi, Fazle",
+      "affiliation": "University of Bergen"
+    }
+  ],
+  "keywords": [
+    "model-driven engineering",
+    "semantic interoperability",
+    "metamodelling",
+    "OCL",
+    "EMF",
+    "correspondence models",
+    "trustworthiness",
+    "typed graphs",
+    "comprehensive systems"
+  ]
+}
