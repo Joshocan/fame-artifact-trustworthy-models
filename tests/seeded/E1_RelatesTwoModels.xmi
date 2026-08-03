@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<xmi:XMI xmlns:famecore="http://fame/core/1.0" xmlns:famecorr="http://fame/correspondence/1.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmi:version="2.0" xsi:schemaLocation="http://fame/core/1.0 ../metamodels/fame-delegates.ecore#//core http://fame/correspondence/1.0 ../metamodels/fame-delegates.ecore#//correspondence">
+<xmi:XMI xmlns:famecore="http://fame/core/1.0" xmlns:famecorr="http://fame/correspondence/1.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmi:version="2.0" xsi:schemaLocation="http://fame/core/1.0 ../../metamodels/fame.ecore#//core http://fame/correspondence/1.0 ../../metamodels/fame.ecore#//correspondence">
 
   
   
