@@ -7,13 +7,32 @@ It contains the two metamodels, the well-formedness conditions as OCL, the
 running healthcare scenario of Section 2, the seeded-violation test set, and
 tools that decide the conditions intra-resource OCL cannot.
 
-** Python version: 3.8+:
+There are two ways to check it, and they check the same conditions.
+
+**In Eclipse — the normative path.** `constraints/constraints.ocl` is the
+authoritative statement of every well-formedness condition, and
+`metamodels/fame.ecore` is the metamodel the paper describes. Open them in the
+Ecore editor, load the OCL document, and validate `scenario/scenario.xmi` and
+the files in `tests/seeded/`. Step-by-step instructions and the tested
+Eclipse/EMF/OCL versions are under "Running the checks in Eclipse" below. This
+is the path that verifies what Sections 4.4 and 6.4 of the paper claim.
+
+**Without Eclipse — a zero-install cross-check.** Reviewers who would rather
+not install Eclipse Modeling Tools can run the same conditions in Python 3.8+
+with no dependencies:
 
 ```
 python3 tests/run_tests.py
 ```
 
 Expected: `25 passed, 0 failed`.
+
+`tools/fame_validate.py` re-implements every OCL invariant, and the suite
+asserts that the two agree on which condition each seeded instance violates. It
+is a convenience and a cross-check, not a substitute: where the two disagree,
+the OCL is right. It is also the *resolver* the paper refers to, since
+conditions E5 and E7 need the participating models loaded and cannot be decided
+by intra-resource OCL.
 
 ---
 
@@ -124,8 +143,8 @@ that direction; it does not claim the reverse, and the reverse is false.
 
 ## Known gaps
 
-Stated plainly, because the paper currently implies otherwise in places
-(see `PAPER-INCONSISTENCIES.md`, item 8).
+Stated plainly, because parts of the framework described in the paper are
+not implemented here.
 
 1. **No SAT/SMT solver.** Condition D3 (satisfiability of a model's formal
    constraint rules) is not decided anywhere in this artifact. Only the
