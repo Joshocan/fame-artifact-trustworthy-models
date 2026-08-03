@@ -9,13 +9,41 @@ tools that decide the conditions intra-resource OCL cannot.
 
 There are two ways to check it, and they check the same conditions.
 
-**In Eclipse — the normative path.** `constraints/constraints.ocl` is the
-authoritative statement of every well-formedness condition, and
-`metamodels/fame.ecore` is the metamodel the paper describes. Open them in the
-Ecore editor, load the OCL document, and validate `scenario/scenario.xmi` and
-the files in `tests/seeded/`. Step-by-step instructions and the tested
-Eclipse/EMF/OCL versions are under "Running the checks in Eclipse" below. This
-is the path that verifies what Sections 4.4 and 6.4 of the paper claim.
+**In Eclipse — the normative path.** Open `scenario/scenario.xmi` in the sample
+Ecore editor, select the root, and choose **Edit → Validate**. Nothing else is
+needed: the instance points at `metamodels/fame-delegates.ecore`, which carries
+every invariant as an EMF validation delegate. Every file in `tests/seeded/`
+points there too, so each can be validated the same way and should report the
+condition its filename names. This is the path that verifies what Sections 4.4
+and 6.4 of the paper claim. Tested Eclipse/EMF/OCL versions are under "Running
+the checks in Eclipse" below.
+
+### The two metamodel files
+
+They declare **the same metamodel**: identical classes, features and
+enumerations. They differ only in where the constraints live.
+
+| File | Constraints | Use it when |
+|---|---|---|
+| `fame.ecore` | none — they live in `constraints/constraints.ocl` | reading the metamodel on its own, or loading the Complete OCL document against it |
+| `fame-delegates.ecore` | embedded as `eAnnotations` | validating instances with no setup (**what the instances point at**) |
+
+`constraints.ocl` remains the authoritative statement of the conditions;
+`fame-delegates.ecore` is **generated** from it by `tools/make_delegates.py`.
+Edit the OCL and regenerate; do not edit the delegates file by hand.
+
+**Do not load `constraints.ocl` against `fame-delegates.ecore`.** The
+invariants would then be present twice and every violation would be reported
+twice. Use one or the other:
+
+- delegates only (default) — validate the instance directly;
+- Complete OCL only — retarget the instance's `xsi:schemaLocation` at
+  `fame.ecore`, then load `constraints.ocl`.
+
+Both `.ecore` files declare the same `nsURI`s, so register only one of them in
+the EPackage registry if you register either. Left unregistered, EMF resolves
+each instance through its `xsi:schemaLocation` and the two coexist without
+conflict.
 
 **Without Eclipse — a zero-install cross-check.** Reviewers who would rather
 not install Eclipse Modeling Tools can run the same conditions in Python 3.8+
@@ -94,26 +122,35 @@ figures/                  core-mm and corr-mm, vector versions
 Tested configuration: Eclipse Modeling Tools 2024-03, EMF 2.36, OCL 6.20.
 
 1. Import the repository as an existing project.
-2. Right-click `constraints/constraints.ocl` → **OCL → Load Document**, and
-   select `metamodels/fame.ecore` when prompted for the metamodel.
-3. Open `scenario/scenario.xmi` in the sample Ecore editor.
-4. Select the root, then **Edit → Validate**. Expect no diagnostics.
-5. Repeat on any file in `tests/seeded/`. Expect the diagnostic to name the
-   invariant matching the filename.
+2. Open `scenario/scenario.xmi` in the sample Ecore editor.
+3. Select the root, then **Edit → Validate**. Expect no diagnostics.
+4. Repeat on any file in `tests/seeded/`. Expect the diagnostic to name the
+   invariant matching the filename, as listed in
+   `tests/expected-violations.md`.
 
-### Verifying the delegate metamodel
+No OCL document needs loading: the instances resolve to
+`metamodels/fame-delegates.ecore`, which carries the invariants.
 
-`metamodels/fame-delegates.ecore` was generated mechanically by
-`tools/make_delegates.py` and **has not been opened in Eclipse**. Before
-releasing this artifact:
+### Reading the conditions instead
 
-1. Open it in the Ecore editor and confirm it loads without errors.
-2. Point `scenario/scenario.xmi`'s `xsi:schemaLocation` at it.
-3. Run **Validate**; confirm the invariants fire with no OCL parse errors.
-4. If any invariant fails to parse, fix it in `constraints/constraints.ocl`
-   and rerun `python3 tools/make_delegates.py`.
+To read all conditions in one place, or to check the delegates against their
+source, open `constraints/constraints.ocl`. To validate through it rather than
+through the delegates, retarget the instance's `xsi:schemaLocation` at
+`metamodels/fame.ecore` and load the document with **OCL → Load Document**.
+Do not do both at once (see "The two metamodel files" above).
 
-Until step 3 passes, the paper should not claim the delegate form exists.
+### Regenerating the delegates
+
+`fame-delegates.ecore` is generated. After editing `constraints.ocl`:
+
+```
+python3 tools/make_delegates.py
+```
+
+Then reopen an instance and validate. If an invariant fails to parse as a
+delegate, fix it in `constraints.ocl` and regenerate; the delegate form imposes
+slightly tighter syntax than a Complete OCL document, and the `allElements()`
+helper is inlined into A1 and A3 by the generator.
 
 ---
 
