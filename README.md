@@ -53,7 +53,7 @@ with no dependencies:
 python3 tests/run_tests.py
 ```
 
-Expected: `25 passed, 0 failed`.
+Expected: `24 passed, 0 failed`.
 
 `tools/fame_validate.py` re-implements every OCL invariant, and the suite
 asserts that the two agree on which condition each seeded instance violates. It
@@ -103,7 +103,7 @@ scenario/
   correspondences.corr    the same correspondences in the Section 6.3 notation
 artefacts/                synthetic source corpus cited by provenance links
 tests/
-  seeded/                 22 instances, one deliberate violation each
+  seeded/                 21 instances, one deliberate violation each
   expected-violations.md  what each seed violates, and what is not seedable
   run_tests.py            the suite
 tools/
@@ -130,6 +130,14 @@ Tested configuration: Eclipse Modeling Tools 2024-03, EMF 2.36, OCL 6.20.
 
 No OCL document needs loading: the instances resolve to
 `metamodels/fame-delegates.ecore`, which carries the invariants.
+
+**Import the repository as a single project**, keeping the directory layout
+intact. Instances locate the metamodel by relative `xsi:schemaLocation`
+(`../metamodels/` from `scenario/`, `../../metamodels/` from `tests/seeded/`),
+so moving a file between directories, or importing a subfolder on its own,
+produces `PackageNotFoundException: Package with uri 'http://fame/core/1.0'
+not found`. If you see that, the instance is not where its relative path
+expects it to be.
 
 ### Reading the conditions instead
 
