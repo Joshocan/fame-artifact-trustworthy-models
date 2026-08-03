@@ -7,7 +7,7 @@ It contains the two metamodels, the well-formedness conditions as OCL, the
 running healthcare scenario of Section 2, the seeded-violation test set, and
 tools that decide the conditions intra-resource OCL cannot.
 
-**Quick check** (no Eclipse needed, Python 3.8+, no dependencies):
+** Python version: 3.8+:
 
 ```
 python3 tests/run_tests.py
