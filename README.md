@@ -18,6 +18,12 @@ condition its filename names. This is the path that verifies what Sections 4.4
 and 6.4 of the paper claim. Tested Eclipse/EMF/OCL versions are under "Running
 the checks in Eclipse" below.
 
+`WALKTHROUGH.md` documents the seeded set instance by instance: the baseline
+value each one changes and what it changes it to, the diagnostic Eclipse and
+the Python validator each report, why seven of the twenty-one trip more than
+one condition, which conditions no loadable instance can violate, and how to
+add a seed of your own.
+
 ### The two metamodel files
 
 They declare **the same metamodel**: identical classes, features and
@@ -93,6 +99,7 @@ operations for T2 and G2. See "Known gaps".
 ## Layout
 
 ```
+WALKTHROUGH.md            seed-by-seed guide: change, expected output, why
 metamodels/
   fame.ecore              core + correspondence metamodels (normative)
   fame-delegates.ecore    generated: same, with OCL validation delegates
