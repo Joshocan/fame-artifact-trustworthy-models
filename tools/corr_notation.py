@@ -2,7 +2,7 @@
 """
 Parser and serialiser for the typed correspondence notation of Section 6.3.
 
-Implements the grammar of Figure 6:
+Implements the grammar of CorrespondenceNotation figure in the paper, with the following nonterminals:
 
     CorrModel ::= 'models' (Alias '=' ModelId)+ Corr*
     Corr      ::= CorrId ':' Kind
@@ -13,19 +13,24 @@ Implements the grammar of Figure 6:
                   'status'     ('candidate'|'validated'|'trusted'|'rejected')
     End       ::= Alias '::' ElementId ('[' Role ']')?
 
-Two deviations from Figure 6 as printed, both deliberate:
+Parsing goes beyond the grammar in one deliberate respect. The notation figure in the paper fixes the
+syntax only; the parser additionally enforces the typing rules of Section 6.4
+(E2, E3, E4, E6, E7) at parse time, so a statement that does not type is
+rejected with the violated condition named, exactly as the corresponding XMI
+instance would be. Checking a notation statement and validating the metamodel
+instance are therefore the same judgement, which is the claim Section 6.3
+makes.
 
-  * ',' is accepted as an end separator. The paper's own C2 example uses it
-    for the third end of a ternary correspondence, but the printed grammar
-    lists only '~' and '->'. The grammar in the paper should be corrected.
-  * Parsing enforces the typing rules of Section 6.4 (E2, E3, E4, E6, E7) at
-    parse time, so a statement that does not type is rejected with the
-    condition named, exactly as the corresponding XMI instance would be.
+E5 is the exception, as it is for the OCL: deciding that an ElementId resolves
+requires the participating system model, so it is checked by from_xmi() and by
+tools/fame_validate.py rather than at parse time.
 
-The notation is a *projection* of the metamodel, not a bijection: it carries
+The notation is a *projection* of the metamodel, not a bijection. It carries
 kind, ends, roles, compatibility conditions, evidence, confidence and status,
-but not `name`, `corroborationCount`, or a condition's `formal` flag. from_xmi()
-therefore projects onto the notation's vocabulary before comparison.
+but not `name`, `corroborationCount`, or a condition's `formal` flag.
+from_xmi() therefore projects onto the notation's vocabulary before comparison,
+and tests/run_tests.py asserts that the projection agrees with
+scenario/correspondences.corr.
 
 Usage:
     python3 tools/corr_notation.py check   scenario/correspondences.corr
@@ -48,6 +53,7 @@ STATUSES = {"candidate", "validated", "trusted", "rejected"}
 
 
 class NotationError(Exception):
+    """Raised for malformed or invalid correspondence notation."""
     pass
 
 
